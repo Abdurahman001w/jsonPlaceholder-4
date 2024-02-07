@@ -8,3 +8,9 @@ export function loadTodo() {
       });
   };
 }
+export const deleteTodo = (index) => {
+  return {
+    type: "todo/delete",
+    payload: index,
+  };
+};
