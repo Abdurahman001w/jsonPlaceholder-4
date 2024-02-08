@@ -7,15 +7,28 @@ import { useSelector, useDispatch } from "react-redux";
 function App() {
   const todo = useSelector((state) => state.todo);
   const loading = useSelector((state) => state.loading);
-
+  const [checked, setChecked] = useState([]);
   const dispatch = useDispatch();
   const handleDelete = (index) => {
+    if (checked.includes(index)) {
+      setChecked(checked.filter((item) => item !== index));
+    }
     dispatch(deleteTodo(index));
   };
 
+  const handleCheckboxChange = (index) => {
+    if (checked.includes(index)) {
+      setChecked(checked.filter((item) => item !== index));
+    } else {
+      setChecked([...checked, index]);
+    }
+  };
   useEffect(() => {
     dispatch(loadTodo());
   }, []);
+
+  useEffect(() => {}, []);
+
   return (
     <div>
       <div>
@@ -26,9 +39,12 @@ function App() {
         : todo.map((item, index) => {
             return (
               <div key={index} className="todo">
-                <div className="checkbox">
-                  <input type="checkbox" />
-                </div>
+                <input
+                  type="checkbox"
+                  name="coding-notes"
+                  checked={checked.includes(index)}
+                  onChange={() => handleCheckboxChange(index)}
+                />
                 <div className="title">{item.title}</div>
                 <div className="action">
                   <button onClick={() => handleDelete(index)} className="btn">
@@ -41,4 +57,5 @@ function App() {
     </div>
   );
 }
+
 export default App;

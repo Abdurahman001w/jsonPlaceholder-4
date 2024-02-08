@@ -5,24 +5,27 @@ import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
 import { thunk } from "redux-thunk";
 import App from "./App";
-
 const initialState = { todo: [], loading: false };
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "todo/start":
       return { loading: true };
     case "todo/item":
       return { todo: action.payload };
-    case "todo/delete":
-      const updatedTodo = state.todo.filter(
-        (item, index) => index !== action.payload
-      );
-      return { ...state, todo: updatedTodo };
+    case "DELETE_TODO":
+      return {
+        ...state,
+        todo: state.todo.filter(
+          (item, index) => index !== action.payload.index
+        ),
+      };
 
     default:
       return state;
   }
 };
+
 const store = createStore(reducer, applyMiddleware(thunk));
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -10,7 +10,9 @@ export function loadTodo() {
 }
 export const deleteTodo = (index) => {
   return {
-    type: "todo/delete",
-    payload: index,
+    type: "DELETE_TODO",
+    payload: {
+      index,
+    },
   };
 };
